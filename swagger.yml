@@ -22,19 +22,83 @@ paths:
                   properties:
                     id:
                       type: string
-                      example: '1'
+                      example: 'fed6182d-c7da-43e8-9e95-ea358632eefa'
                     title:
                       type: string
-                      example: 'Car'
+                      example: 'Laptop'
                     description:
                       type: string
-                      example: 'Fancy car'
+                      example: 'Mac'
                     count:
                       type: number
-                      example: 10
+                      example: 11
                     price:
                       type: number
-                      example: 100
+                      example: 250
+        '500':
+          description: Error in backend
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Something goes wrong!'
+    options:
+      summary: Options
+      operationId: options
+      responses:
+        '200':
+          description: Preflight request
+          content:
+            application/json:
+              schema:
+                type: object
+    post:
+      summary: Add product
+      operationId: createProduct
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                price:
+                  type: number
+                count:
+                  type: number
+      responses:
+        '200':
+          description: If product is added successfully
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: If invalid data type
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Invalid data!
+        '500':
+          description: Backend error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Somethong goes wrong!
   /products/{id}:
     get:
       summary: Get product by ID
@@ -46,7 +110,7 @@ paths:
           description: ID of the product
           schema:
             type: string
-            example: '1'
+            example: 'fed6182d-c7da-43e8-9e95-ea358632eefa'
       responses:
         '200':
           description: A single product
@@ -57,20 +121,20 @@ paths:
                 properties:
                   id:
                     type: string
-                    example: '1'
+                    example: 'fed6182d-c7da-43e8-9e95-ea358632eefa'
                   title:
                     type: string
-                    example: 'Car'
+                    example: 'Laptop'
                   description:
                     type: string
-                    example: 'Fancy car'
+                    example: 'Mac'
                   count:
                     type: number
-                    example: 10
+                    example: 11
                   price:
                     type: number
-                    example: 100
-        '404':
+                    example: 250
+        '500':
           description: Product not found
           content:
             application/json:
@@ -79,4 +143,36 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: Product not found
+                    example: Product not found!
+    delete:
+      summary: Delete product by ID
+      operationId: deleteProduct
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the product
+          schema:
+            type: string
+            example: 'fed6182d-c7da-43e8-9e95-ea358632eefa'
+      responses:
+        '200':
+          description: Successfully deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Successfully deleted!'
+        '500':
+          description: Product not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Product not found!
